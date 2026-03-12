@@ -1,9 +1,10 @@
 package com.skiply.student_service.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 	/**
 	 * To handle ResourceNotFoundException for student not exists scenario
 	 * 
@@ -25,6 +28,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+		logger.error("Resource not found: {}", ex.getMessage());
 		return createErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
@@ -37,6 +41,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(StudentAlreadyExistsException.class)
 	public ResponseEntity<ApiErrorResponse> handleStudentAlreadyExists(StudentAlreadyExistsException ex, HttpServletRequest request) {
+		logger.error("Student already exists: {}", ex.getMessage());
 		return createErrorResponse(ex.getMessage(), HttpStatus.CONFLICT);
 	}
 
@@ -50,7 +55,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiErrorResponse> handleGlobalException(Exception ex,
 			HttpServletRequest request) {
-		return createErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("An unexpected error occurred: {}", ex.getMessage(), ex);
+		return createErrorResponse("An internal error occurred. Please try again later", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
