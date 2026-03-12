@@ -21,6 +21,13 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(StudentAlreadyExistsException.class)
+	public ResponseEntity<ApiErrorResponse> handleStudentAlreadyExists(StudentAlreadyExistsException ex, HttpServletRequest request) {
+		ApiErrorResponse error = new ApiErrorResponse(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
+				ex.getMessage());
+		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiErrorResponse> handleGlobalException(MethodArgumentNotValidException ex,
 			HttpServletRequest request) {
