@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The StudentService class provides the business logic for managing student records.
+ */
 @Service
 @Transactional
 public class StudentService {

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * The StudentController class handles all incoming HTTP requests for the student service.
+ */
 @RestController
 @RequestMapping("/api/v1/students")
 public class StudentController {
