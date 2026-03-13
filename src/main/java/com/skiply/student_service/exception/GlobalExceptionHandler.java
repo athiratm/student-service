@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiErrorResponse> handleGlobalException(Exception ex,
 			HttpServletRequest request) {
 		logger.error("An unexpected error occurred: {}", ex.getMessage(), ex);
-		return createErrorResponse("An internal error occurred. Please try again later", HttpStatus.INTERNAL_SERVER_ERROR);
+		return createErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
